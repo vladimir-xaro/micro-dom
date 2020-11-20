@@ -1,0 +1,10 @@
+.DS_Store
+
+# /build
+/dev
+/node_modules
+/webpack
+
+/src/index.dev.ts
+package-lock.json
+tsconfig.json
