@@ -14,7 +14,8 @@
     "url": "git+https://github.com/vladimir-xaro/micro-dom.git"
   },
   "keywords": [
-    "modal",
+    "front-end",
+    "dom",
     "typescript"
   ],
   "author": "Vladimir Slavgorodskiy <vladimir.xaro@gmail.com>",
