@@ -5,6 +5,8 @@
 /node_modules
 /webpack
 
+/src/scss
 /src/index.dev.ts
+
 package-lock.json
 tsconfig.json

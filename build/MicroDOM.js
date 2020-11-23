@@ -1,17 +1,17 @@
 var MicroDOM;MicroDOM =
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 867:
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "default": function() { return /* binding */ src; }
+  "default": () => /* binding */ src
 });
 
 ;// CONCATENATED MODULE: ./src/helpers.ts
@@ -33,6 +33,11 @@ function getEls(...els) {
 class MicroDOM extends Array {
     constructor(...args) {
         super(...args);
+    }
+    create(content, tagName = 'div') {
+        const el = document.createElement(tagName);
+        el.innerHTML = content;
+        return el;
     }
     addClass(...classes) {
         for (const el of this) {
@@ -82,7 +87,7 @@ function dom(...args) {
 
 ;// CONCATENATED MODULE: ./src/index.ts
 
-/* harmony default export */ var src = (dom);
+/* harmony default export */ const src = (dom);
 
 
 /***/ })
@@ -114,32 +119,32 @@ function dom(...args) {
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 		__webpack_require__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
+/******/ 		__webpack_require__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled

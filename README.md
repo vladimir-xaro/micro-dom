@@ -11,16 +11,17 @@ $ npm install @xaro/micro-dom
 ## Usage
 
 ```ts
-import dom from '@xaro/micro-dom';
+import _ from '@xaro/micro-dom';
 
-const els = dom('html', document.querySelector('title'));
+const els = dom('.test-1', document.querySelector('.test-2'), ...document.querySelectorAll('.test-3') /* ... */);
 
- dom.addClass('class-A', 'class-B' /* ... */)
+ _.addClass('class-A', 'class-B' /* ... */)
     .removeClass('class-A', 'class-B' /* ... */)
     .toggleClass('class-A')
     .css({
       color: 'red',
       'font-size': '15px',
+      backgroundColor: 'blue'
       /* ... */
     })
     .attr({
@@ -28,6 +29,7 @@ const els = dom('html', document.querySelector('title'));
       'data-test-2': 'test-2',
       /* ... */
     })
+    .html('content');
 ```
 
 ## Interface
@@ -35,11 +37,13 @@ const els = dom('html', document.querySelector('title'));
 *types.d.ts*
 ```ts
 export interface I_MicroDOM extends Array<Element> {
-  addClass(...classes: string[]): I_MicroDOM;
-  removeClass(...classes: string[]): I_MicroDOM;
-  toggleClass(classname: string): I_MicroDOM;
-  css(obj: object): I_MicroDOM;
-  attr(obj: object): I_MicroDOM;
+  create(content, tagName: string): I_MicroDOM;                     // Creates a new element and returns an array of the existing element including the new one
+  append(...append: Element[] | string[] | I_MicroDOM): I_MicroDOM; // Inserts a set of Node objects or DOMString objects after the last child of each array element
+  addClass(...classes: string[]): I_MicroDOM;                       // Adds a class or classes to all array elements
+  removeClass(...classes: string[]): I_MicroDOM;                    // Removes a class or classes from all array elements
+  toggleClass(classname: string): I_MicroDOM;                       // Adds or removes a class for each element of the array, depending on its presence
+  css(obj: object): I_MicroDOM;                                     // Sets the style attribute property passed in the object by key
+  attr(obj: object): I_MicroDOM;                                    // Sets the attribute property passed in the object by key
 }
 ```
 
