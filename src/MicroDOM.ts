@@ -1,8 +1,23 @@
+import getEls from "./helpers";
 import { I_MicroDOM } from "./types";
 
 export default class MicroDOM extends Array implements I_MicroDOM {
   constructor(...args) {
     super(...args);
+  }
+
+  get(...args: string[] | Element[]): I_MicroDOM {
+    let newInstance = new MicroDOM;
+
+    if (this.length) {
+      for (const el of this) {
+        newInstance.push(...getEls(el, ...args));
+      }
+    } else {
+      newInstance.push(...getEls(document, ...args));
+    }
+
+    return newInstance;
   }
 
   create(...tagNames: string[]): I_MicroDOM {

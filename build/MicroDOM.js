@@ -22,11 +22,11 @@ __webpack_require__.d(__webpack_exports__, {
 });
 
 ;// CONCATENATED MODULE: ./src/helpers.ts
-function getEls(...els) {
+function getEls(target, ...els) {
     const arr = [];
     for (const el of els) {
         if (typeof el === 'string') {
-            const nodes = document.querySelectorAll(el);
+            const nodes = target.querySelectorAll(el);
             arr.push(...nodes);
         }
         else if (el instanceof Element) {
@@ -37,9 +37,22 @@ function getEls(...els) {
 }
 
 ;// CONCATENATED MODULE: ./src/MicroDOM.ts
+
 class MicroDOM extends Array {
     constructor(...args) {
         super(...args);
+    }
+    get(...args) {
+        let newInstance = new MicroDOM;
+        if (this.length) {
+            for (const el of this) {
+                newInstance.push(...getEls(el, ...args));
+            }
+        }
+        else {
+            newInstance.push(...getEls(document, ...args));
+        }
+        return newInstance;
     }
     create(...tagNames) {
         for (const tagName of tagNames) {
@@ -103,7 +116,7 @@ function _(...args) {
     if (args instanceof MicroDOM) {
         return args;
     }
-    return new MicroDOM(...getEls(...args));
+    return new MicroDOM(...getEls(document, ...args));
 }
 
 ;// CONCATENATED MODULE: ./src/index.ts
