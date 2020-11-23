@@ -1,6 +1,6 @@
-import dom from "./entry";
+import _ from "./entry";
 
-export default dom;
+export default _;
 
 export {
   I_MicroDOM

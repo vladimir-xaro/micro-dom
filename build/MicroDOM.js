@@ -1,13 +1,20 @@
-var MicroDOM;MicroDOM =
-/******/ (() => { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define("MicroDOM", [], factory);
+	else if(typeof exports === 'object')
+		exports["MicroDOM"] = factory();
+	else
+		root["MicroDOM"] = factory();
+})(self, function() {
+return /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 867:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
@@ -34,10 +41,24 @@ class MicroDOM extends Array {
     constructor(...args) {
         super(...args);
     }
-    create(content, tagName = 'div') {
-        const el = document.createElement(tagName);
-        el.innerHTML = content;
-        return el;
+    create(...tagNames) {
+        for (const tagName of tagNames) {
+            this.push(document.createElement(tagName));
+        }
+        return this;
+    }
+    append(...append) {
+        for (const el of this) {
+            for (const entity of append) {
+                if (Array.isArray(entity)) {
+                    this.append(...entity);
+                }
+                else {
+                    el.append(entity);
+                }
+            }
+        }
+        return this;
     }
     addClass(...classes) {
         for (const el of this) {
@@ -78,7 +99,7 @@ class MicroDOM extends Array {
 ;// CONCATENATED MODULE: ./src/entry.ts
 
 
-function dom(...args) {
+function _(...args) {
     if (args instanceof MicroDOM) {
         return args;
     }
@@ -87,7 +108,7 @@ function dom(...args) {
 
 ;// CONCATENATED MODULE: ./src/index.ts
 
-/* harmony default export */ const src = (dom);
+/* harmony default export */ const src = (_);
 
 
 /***/ })
@@ -135,22 +156,12 @@ function dom(...args) {
 /******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /************************************************************************/
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(867);
 /******/ })()
-;
+.default;
+});
 //# sourceMappingURL=MicroDOM.js.map
