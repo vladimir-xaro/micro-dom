@@ -37,7 +37,7 @@ const els = dom('.test-1', document.querySelector('.test-2'), ...document.queryS
 *types.d.ts*
 ```ts
 export interface I_MicroDOM extends Array<Element> {
-  get(...args: string[] | Element[]): I_MicroDOM;                   // Returns a new instance with new elements from each element in the array (or from the document if the array is empty)
+  get(...args: string[] | Element[]): I_MicroDOM;                   // Returns a new instance with new elements from each element in the array (or from the document if there are no current elements)
   create(content, tagName: string): I_MicroDOM;                     // Creates a new element and returns an array of the existing element including the new one
   append(...append: Element[] | string[] | I_MicroDOM): I_MicroDOM; // Inserts a set of Node objects or DOMString objects after the last child of each array element
   addClass(...classes: string[]): I_MicroDOM;                       // Adds a class or classes to all array elements
