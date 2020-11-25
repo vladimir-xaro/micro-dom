@@ -1,5 +1,3 @@
-import { I_MicroDOM } from "./types";
-
 export default function getEls<T extends Element>(target: Element | Document, ...els: string[] | T[]): T[] {
   const arr: T[] = [];
 

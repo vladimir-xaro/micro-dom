@@ -1,13 +1,13 @@
 import getEls from "./helpers";
 import { I_MicroDOM } from "./types";
 
-export default class MicroDOM<T extends Element> extends Array implements I_MicroDOM<T> {
+export default class MicroDOM<T extends HTMLElement = HTMLElement> extends Array<T> implements I_MicroDOM<T> {
   constructor(...args) {
     super(...args);
   }
 
   get(...args: string[] | T[]): I_MicroDOM<T> {
-    let newInstance = new MicroDOM;
+    let newInstance: I_MicroDOM<T> = new MicroDOM<T>();
 
     if (this.length) {
       for (const el of this) {
@@ -22,7 +22,7 @@ export default class MicroDOM<T extends Element> extends Array implements I_Micr
 
   create(...tagNames: string[]): I_MicroDOM<T> {
     for (const tagName of tagNames) {
-      this.push(document.createElement(tagName));
+      this.push(document.createElement(tagName) as unknown as T);
     }
 
     return this;
@@ -69,7 +69,7 @@ export default class MicroDOM<T extends Element> extends Array implements I_Micr
   css(obj: object): I_MicroDOM<T> {
     for (const el of this) {
       for (const key in obj) {
-        (el as HTMLElement).style[key] = obj[key];
+        el.style[key] = obj[key];
       }
     }
 
