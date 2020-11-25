@@ -1,7 +1,7 @@
 import getEls from "./helpers";
 import { I_MicroDOM } from "./types";
 
-export default class MicroDOM<T extends Element> extends Array implements I_MicroDOM<T> {
+export default class MicroDOM<T extends Element = Element> extends Array implements I_MicroDOM<T> {
   constructor(...args) {
     super(...args);
   }
