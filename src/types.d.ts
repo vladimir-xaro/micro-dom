@@ -1,4 +1,4 @@
-export interface I_MicroDOM<T extends Element> extends Array<Element> {
+export interface I_MicroDOM<T extends Element = Element> extends Array<Element> {
   get(...args: string[] | T[]): I_MicroDOM<T>;                      // Returns a new instance with new elements from each element in the array (or from the document if the array is empty)
   create(content, tagName: string): I_MicroDOM<T>;                        // Creates a new element and returns an array of the existing element including the new one
   append(...append: T[] | string[] | I_MicroDOM<T>): I_MicroDOM<T>; // Inserts a set of Node objects or DOMString objects after the last child of each array element
