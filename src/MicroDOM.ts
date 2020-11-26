@@ -1,13 +1,13 @@
 import getEls from "./helpers";
 import { I_MicroDOM } from "./types";
 
-export default class MicroDOM<T extends HTMLElement = HTMLElement> extends Array<T> implements I_MicroDOM<T> {
+export default class MicroDOM<THTMLElement extends HTMLElement = HTMLElement> extends Array<THTMLElement> implements I_MicroDOM<THTMLElement> {
   constructor(...args) {
     super(...args);
   }
 
-  get(...args: string[] | T[]): I_MicroDOM<T> {
-    let newInstance: I_MicroDOM<T> = new MicroDOM<T>();
+  get(...args: string[] | THTMLElement[]): I_MicroDOM<THTMLElement> {
+    let newInstance: I_MicroDOM<THTMLElement> = new MicroDOM<THTMLElement>();
 
     if (this.length) {
       for (const el of this) {
@@ -20,15 +20,15 @@ export default class MicroDOM<T extends HTMLElement = HTMLElement> extends Array
     return newInstance;
   }
 
-  create(...tagNames: string[]): I_MicroDOM<T> {
+  create(...tagNames: string[]): I_MicroDOM<THTMLElement> {
     for (const tagName of tagNames) {
-      this.push(document.createElement(tagName) as unknown as T);
+      this.push(document.createElement(tagName) as unknown as THTMLElement);
     }
 
     return this;
   }
 
-  append(...append: T[] | string[] | I_MicroDOM<T>): I_MicroDOM<T> {
+  append(...append: THTMLElement[] | string[] | I_MicroDOM<THTMLElement>): I_MicroDOM<THTMLElement> {
     for (const el of this) {
       for (const entity of append) {
         if (Array.isArray(entity)) {
@@ -42,7 +42,7 @@ export default class MicroDOM<T extends HTMLElement = HTMLElement> extends Array
     return this;
   }
 
-  addClass(...classes: string[]): I_MicroDOM<T> {
+  addClass(...classes: string[]): I_MicroDOM<THTMLElement> {
     for (const el of this) {
       el.classList.add(...classes);
     }
@@ -50,7 +50,7 @@ export default class MicroDOM<T extends HTMLElement = HTMLElement> extends Array
     return this;
   }
 
-  removeClass(...classes: string[]): I_MicroDOM<T> {
+  removeClass(...classes: string[]): I_MicroDOM<THTMLElement> {
     for (const el of this) {
       el.classList.remove(...classes);
     }
@@ -58,7 +58,7 @@ export default class MicroDOM<T extends HTMLElement = HTMLElement> extends Array
     return this;
   }
 
-  toggleClass(classname: string): I_MicroDOM<T> {
+  toggleClass(classname: string): I_MicroDOM<THTMLElement> {
     for (const el of this) {
       el.classList.toggle(classname);
     }
@@ -66,7 +66,7 @@ export default class MicroDOM<T extends HTMLElement = HTMLElement> extends Array
     return this;
   }
 
-  css(obj: object): I_MicroDOM<T> {
+  css(obj: object): I_MicroDOM<THTMLElement> {
     for (const el of this) {
       for (const key in obj) {
         el.style[key] = obj[key];
@@ -76,7 +76,7 @@ export default class MicroDOM<T extends HTMLElement = HTMLElement> extends Array
     return this;
   }
 
-  attr(obj: object): I_MicroDOM<T> {
+  attr(obj: object): I_MicroDOM<THTMLElement> {
     for (const el of this) {
       for (const key in obj) {
         el.setAttribute(key, obj[key]);
