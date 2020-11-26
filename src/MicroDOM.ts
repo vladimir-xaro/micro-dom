@@ -28,6 +28,14 @@ export default class MicroDOM extends Array implements I_MicroDOM {
     return this;
   }
 
+  empty(): I_MicroDOM {
+    for (const el of this) {
+      el.innerHTML = '';
+    }
+
+    return this;
+  }
+
   append(...append: Element[] | string[] | I_MicroDOM): I_MicroDOM {
     for (const el of this) {
       for (const entity of append) {
