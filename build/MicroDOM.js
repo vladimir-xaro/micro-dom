@@ -60,6 +60,12 @@ class MicroDOM extends Array {
         }
         return this;
     }
+    empty() {
+        for (const el of this) {
+            el.innerHTML = '';
+        }
+        return this;
+    }
     append(...append) {
         for (const el of this) {
             for (const entity of append) {

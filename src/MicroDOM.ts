@@ -27,6 +27,14 @@ export default class MicroDOM<THTMLElement extends HTMLElement = HTMLElement> ex
 
     return this;
   }
+  
+  empty(): I_MicroDOM {
+    for (const el of this) {
+      el.innerHTML = '';
+    }
+
+    return this;
+  }
 
   append(...append: THTMLElement[] | string[] | I_MicroDOM<THTMLElement>): I_MicroDOM<THTMLElement> {
     for (const el of this) {
