@@ -6,7 +6,7 @@ export default class MicroDOM<T extends Element = Element> extends Array impleme
     super(...args);
   }
 
-  get(...args: string[] | Element[]): I_MicroDOM<T> {
+  get(...args: Array<string | Element>): I_MicroDOM<T> {
     let newInstance = new MicroDOM;
 
     if (this.length) {
@@ -20,13 +20,13 @@ export default class MicroDOM<T extends Element = Element> extends Array impleme
     return newInstance;
   }
 
-  create<TagName extends keyof HTMLElementTagNameMap>(
-    ...entities: TagName[] |
+  create<TagName extends keyof HTMLElementTagNameMap>(...entities: Array<
+    TagName |
     {
       tagName?: TagName,
-      content?: Element | Element[] | string | string[] | I_MicroDOM<T>
-    }[]
-  ): I_MicroDOM<T> {
+      content?: string | Element | Array<string | Element> | I_MicroDOM<T>
+    }
+  >): I_MicroDOM<T> {
     let newInstance = new MicroDOM;
 
     for (const entity of entities) {
@@ -38,7 +38,7 @@ export default class MicroDOM<T extends Element = Element> extends Array impleme
           if (Array.isArray(entity.content)) {
             recursiveAppend<T>(el, ...entity.content)
           } else {
-            recursiveAppend<T>(el, entity.content as T)
+            recursiveAppend<T>(el, entity.content)
           }
         }
         newInstance.push(el)
@@ -56,7 +56,7 @@ export default class MicroDOM<T extends Element = Element> extends Array impleme
     return this;
   }
 
-  append(...append: Element[] | string[] | I_MicroDOM<T>): I_MicroDOM<T> {
+  append(...append: Array<string | Element> | I_MicroDOM<T>): I_MicroDOM<T> {
     for (const el of this) {
       recursiveAppend(el, ...append);
     }
@@ -91,7 +91,7 @@ export default class MicroDOM<T extends Element = Element> extends Array impleme
   css(obj: object): I_MicroDOM<T> {
     for (const el of this) {
       for (const key in obj) {
-        // (el as HTMLElement).style[key] = obj[key];
+        (el as HTMLElement).style[key] = obj[key];
       }
     }
 

@@ -118,7 +118,7 @@ class MicroDOM extends Array {
     css(obj) {
         for (const el of this) {
             for (const key in obj) {
-                // (el as HTMLElement).style[key] = obj[key];
+                el.style[key] = obj[key];
             }
         }
         return this;
