@@ -1,4 +1,6 @@
-export default function getEls(target: Element | Document, ...els: string[] | Element[]): Element[] {
+import { I_MicroDOM } from "./types";
+
+export function getEls(target: Element | Document, ...els: string[] | Element[]): Element[] {
   const arr: Element[] = [];
 
   for (const el of els) {
@@ -11,4 +13,14 @@ export default function getEls(target: Element | Document, ...els: string[] | El
   }
 
   return arr;
+}
+
+export function recursiveAppend<T extends Element = Element>(el: Element, ...content: Element[] | string[] | I_MicroDOM<T>) {
+  for (const entity of content) {
+    if (Array.isArray(entity)) {
+      recursiveAppend(el, ...entity);
+    } else {
+      el.append(entity);
+    }
+  }
 }

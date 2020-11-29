@@ -1,10 +1,11 @@
-import getEls from "./helpers";
+import { getEls } from "./helpers";
 import MicroDOM from "./MicroDOM";
+import { I_MicroDOM } from "./types";
 
-export default function _(...args) {
+export default function _<T extends Element = Element>(...args: string[] | Element[]): I_MicroDOM<T> {
   if (args instanceof MicroDOM) {
     return args;
   }
 
-  return new MicroDOM(...getEls(document, ...args));
+  return new MicroDOM<T>(...getEls(document, ...args));
 }

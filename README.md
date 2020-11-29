@@ -1,6 +1,8 @@
 # @xaro/micro-dom
 
-The DOM Control micro-library has several functions for manipulating classes, styles and attributes of elements. Also has all the functions of an array and in fact inherits from it
+The DOM control micro-library has several functions for manipulating the classes, styles, and attributes of elements. (See all methods below)
+
+Also has all the array functions and actually inherits from it
 
 ## Install
 
@@ -13,9 +15,9 @@ $ npm install @xaro/micro-dom
 ```ts
 import _ from '@xaro/micro-dom';
 
-const els = dom('.test-1', document.querySelector('.test-2'), ...document.querySelectorAll('.test-3') /* ... */);
+const els = _('.test-1', document.querySelector('.test-2'), ...document.querySelectorAll('.test-3') /* ... */);
 
- _.addClass('class-A', 'class-B' /* ... */)
+ els.addClass('class-A', 'class-B' /* ... */)
     .removeClass('class-A', 'class-B' /* ... */)
     .toggleClass('class-A')
     .css({
@@ -36,16 +38,21 @@ const els = dom('.test-1', document.querySelector('.test-2'), ...document.queryS
 
 *types.d.ts*
 ```ts
-export interface I_MicroDOM extends Array<Element> {
-  get(...args: string[] | Element[]): I_MicroDOM;                   // Returns a new instance with new elements from each element in the array (or from the document if the array is empty)
-  create(content, tagName: string): I_MicroDOM;                     // Creates a new element and returns an array of the existing element including the new one
-  empty(): I_MicroDOM;                                              // Remove all child nodes of the set of matched elements from the DOM
-  append(...append: Element[] | string[] | I_MicroDOM): I_MicroDOM; // Inserts a set of Node objects or DOMString objects after the last child of each array element
-  addClass(...classes: string[]): I_MicroDOM;                       // Adds a class or classes to all array elements
-  removeClass(...classes: string[]): I_MicroDOM;                    // Removes a class or classes from all array elements
-  toggleClass(classname: string): I_MicroDOM;                       // Adds or removes a class for each element of the array, depending on its presence
-  css(obj: object): I_MicroDOM;                                     // Sets the style attribute property passed in the object by key
-  attr(obj: object): I_MicroDOM;                                    // Sets the attribute property passed in the object by key
+export interface I_MicroDOM<T extends Element = Element> extends Array<Element> {
+  get(...args: string[] | Element[]): I_MicroDOM<T>;                      // Returns a new instance with elements from each element of the current instance (or from the document if the current instance is empty)
+  create<TagName extends keyof HTMLElementTagNameMap>(
+    ...entities: TagName[] |
+    {
+      tagName?: TagName,
+      content?: Element | Element[] | string | string[] | I_MicroDOM<T>
+    }[]): I_MicroDOM<T>                                                   // Creates and returns a new instance with new created items
+  empty(): I_MicroDOM<T>;                                                 // Remove all child nodes of the set of matched elements from the DOM
+  append(...append: Element[] | string[] | I_MicroDOM<T>): I_MicroDOM<T>; // Inserts a set of Node objects or DOMString objects after the last child of each array element
+  addClass(...classes: string[]): I_MicroDOM<T>;                          // Adds a class or classes to all array elements
+  removeClass(...classes: string[]): I_MicroDOM<T>;                       // Removes a class or classes from all array elements
+  toggleClass(classname: string): I_MicroDOM<T>;                          // Adds or removes a class for each element of the array, depending on its presence
+  css(obj: object): I_MicroDOM<T>;                                        // Sets the style attribute property passed in the object by key
+  attr(obj: object): I_MicroDOM<T>;                                       // Sets the attribute property passed in the object by key
 }
 ```
 
