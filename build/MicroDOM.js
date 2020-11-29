@@ -35,6 +35,16 @@ function getEls(target, ...els) {
     }
     return arr;
 }
+function recursiveAppend(el, ...content) {
+    for (const entity of content) {
+        if (Array.isArray(entity)) {
+            recursiveAppend(el, ...entity);
+        }
+        else {
+            el.append(entity);
+        }
+    }
+}
 
 ;// CONCATENATED MODULE: ./src/MicroDOM.ts
 
@@ -54,11 +64,26 @@ class MicroDOM extends Array {
         }
         return newInstance;
     }
-    create(...tagNames) {
-        for (const tagName of tagNames) {
-            this.push(document.createElement(tagName));
+    create(...entities) {
+        let newInstance = new MicroDOM;
+        for (const entity of entities) {
+            if (typeof entity === 'string') {
+                newInstance.push(document.createElement(entity));
+            }
+            else if (entity instanceof Object) {
+                const el = document.createElement(entity.tagName || 'div');
+                if (entity.content) {
+                    if (Array.isArray(entity.content)) {
+                        recursiveAppend(el, ...entity.content);
+                    }
+                    else {
+                        recursiveAppend(el, entity.content);
+                    }
+                }
+                newInstance.push(el);
+            }
         }
-        return this;
+        return newInstance;
     }
     empty() {
         for (const el of this) {
@@ -68,14 +93,7 @@ class MicroDOM extends Array {
     }
     append(...append) {
         for (const el of this) {
-            for (const entity of append) {
-                if (Array.isArray(entity)) {
-                    this.append(...entity);
-                }
-                else {
-                    el.append(entity);
-                }
-            }
+            recursiveAppend(el, ...append);
         }
         return this;
     }
@@ -100,7 +118,7 @@ class MicroDOM extends Array {
     css(obj) {
         for (const el of this) {
             for (const key in obj) {
-                el.style[key] = obj[key];
+                // (el as HTMLElement).style[key] = obj[key];
             }
         }
         return this;
