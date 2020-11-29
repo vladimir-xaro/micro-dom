@@ -88,6 +88,25 @@ export default class MicroDOM<T extends Element = Element> extends Array impleme
     return this;
   }
 
+  hasClaass(classname: string, reqtForAll: boolean = false): boolean {
+    if (reqtForAll) { // The presence of a class for each element of the set
+      let number = 0;
+      for (const el of this) {
+        if ((el as Element).classList.contains(classname)) {
+          number++;
+        }
+      }
+      return number === this.length;
+    } else {          // the presence of a class for at least one element of the set
+      for (const el of this) {
+        if ((el as Element).classList.contains(classname)) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+
   css(obj: object): I_MicroDOM<T> {
     for (const el of this) {
       for (const key in obj) {

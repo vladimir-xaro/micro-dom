@@ -115,6 +115,25 @@ class MicroDOM extends Array {
         }
         return this;
     }
+    hasClaass(classname, reqtForAll = false) {
+        if (reqtForAll) { // The presence of a class for each element of the set
+            let number = 0;
+            for (const el of this) {
+                if (el.classList.contains(classname)) {
+                    number++;
+                }
+            }
+            return number === this.length;
+        }
+        else { // the presence of a class for at least one element of the set
+            for (const el of this) {
+                if (el.classList.contains(classname)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
     css(obj) {
         for (const el of this) {
             for (const key in obj) {
