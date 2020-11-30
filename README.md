@@ -17,21 +17,42 @@ import _ from '@xaro/micro-dom';
 
 const els = _('.test-1', document.querySelector('.test-2'), ...document.querySelectorAll('.test-3') /* ... */);
 
- els.addClass('class-A', 'class-B' /* ... */)
-    .removeClass('class-A', 'class-B' /* ... */)
-    .toggleClass('class-A')
-    .css({
-      color: 'red',
-      'font-size': '15px',
-      backgroundColor: 'blue'
-      /* ... */
-    })
-    .attr({
-      'data-test-1': 'test-1',
-      'data-test-2': 'test-2',
-      /* ... */
-    })
-    .append('content');
+els.addClass('class-A', 'class-B' /* ... */)
+  .removeClass('class-A', 'class-B' /* ... */)
+  .toggleClass('class-A')
+  .css({
+    color: 'red',
+    'font-size': '15px',
+    backgroundColor: 'blue'
+    /* ... */
+  })
+  .attr({
+    'data-test-1': 'test-1',
+    'data-test-2': 'test-2',
+    /* ... */
+  })
+  .append('content');
+```
+###### Other methods description see below in the section Interface
+
+## Additional features
+
+The **nextTick** method for sequential execution of functions through setTimeout with a delay of 0, like Vue's $nextTick, but for an array of functions.
+Useful for adding or removing classes when you need to wait for the browser to render, like in the example below:
+```ts
+import _ from '@xaro/micro-dom';
+
+const els = _('.test');
+
+const cbs = [
+  () => els.addClass('class-A'),
+  () => els.addClass('class-B')
+];
+
+els.nextTick(...cbs);
+
+// Result:
+// In setTimeout, the first passed callback function is started, and a new setTimeout for the next function, and so on until all functions are executed
 ```
 
 ## Interface
@@ -63,6 +84,7 @@ export interface I_MicroDOM<T extends Element = Element> extends Array<Element> 
     options ?: boolean | EventListenerOptions): I_MicroDOM < T >;             // Calls the "removeEventListener" method for each set item
   css(obj: object): I_MicroDOM<T>;                                            // Sets the style attribute property passed in the object by key
   attr(obj: object): I_MicroDOM<T>;                                           // Sets the attribute property passed in the object by key
+  nextTick(...cbs: Function[]): I_MicroDOM<T>;                                // Recursively calls each passed function in a new setTimeout(() => {}, 0)
 }
 ```
 

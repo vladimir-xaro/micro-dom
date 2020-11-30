@@ -164,6 +164,15 @@ class MicroDOM extends Array {
         }
         return this;
     }
+    nextTick(...cbs) {
+        const arr = cbs;
+        const current = cbs.shift();
+        current && setTimeout(current, 0);
+        if (arr.length) {
+            this.nextTick(...arr);
+        }
+        return this;
+    }
 }
 
 ;// CONCATENATED MODULE: ./src/entry.ts

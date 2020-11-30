@@ -147,11 +147,13 @@ export default class MicroDOM<T extends Element = Element> extends Array impleme
     const arr = cbs;
     const current = cbs.shift();
     
-    current && setTimeout(current, 0);
+    current && setTimeout(() => {
+      current();
 
-    if (arr.length) {
-      this.nextTick(...arr);
-    }
+      if (arr.length) {
+        this.nextTick(...arr);
+      }
+    }, 0);
 
     return this;
   }
