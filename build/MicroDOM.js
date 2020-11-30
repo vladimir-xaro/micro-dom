@@ -21,6 +21,8 @@ __webpack_require__.d(__webpack_exports__, {
   "default": () => /* binding */ src
 });
 
+// UNUSED EXPORTS: MicroDOM
+
 ;// CONCATENATED MODULE: ./src/helpers.ts
 function getEls(target, ...els) {
     const arr = [];
@@ -115,7 +117,7 @@ class MicroDOM extends Array {
         }
         return this;
     }
-    hasClaass(classname, reqtForAll = false) {
+    hasClass(classname, reqtForAll = false) {
         if (reqtForAll) { // The presence of a class for each element of the set
             let number = 0;
             for (const el of this) {
@@ -133,6 +135,18 @@ class MicroDOM extends Array {
             }
             return false;
         }
+    }
+    addEventListener(type, listener, options) {
+        for (const el of this) {
+            el.addEventListener(type, listener, options);
+        }
+        return this;
+    }
+    removeEventListener(type, listener, options) {
+        for (const el of this) {
+            el.removeEventListener(type, listener, options);
+        }
+        return this;
     }
     css(obj) {
         for (const el of this) {
@@ -165,6 +179,9 @@ function _(...args) {
 ;// CONCATENATED MODULE: ./src/index.ts
 
 /* harmony default export */ const src = (_);
+// ===
+
+
 
 
 /***/ })

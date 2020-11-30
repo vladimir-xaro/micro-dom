@@ -12,7 +12,15 @@ export interface I_MicroDOM<T extends Element = Element> extends Array<Element> 
   addClass(...classes: string[]): I_MicroDOM<T>;                              // Adds a class or classes to all array elements
   removeClass(...classes: string[]): I_MicroDOM<T>;                           // Removes a class or classes from all array elements
   toggleClass(classname: string): I_MicroDOM<T>;                              // Adds or removes a class for each element of the array, depending on its presence
-  hasClaass(classname: string, reqtForAll?: boolean): boolean;                // Determine if any of the agreed members are assigned to this class. Or, if you pass "true" as the second argument, then each element (default: reqtForAll = false)
+  hasClass(classname: string, reqtForAll?: boolean): boolean;                 // Determine if any of the agreed members are assigned to this class. Or, if you pass "true" as the second argument, then each element (default: reqtForAll = false)
+  addEventListener<K extends keyof HTMLElementEventMap>(
+    type: K,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | AddEventListenerOptions): I_MicroDOM<T>;              // Calls the "addEventListener" method for each set item
+  removeEventListener<K extends keyof HTMLElementEventMap>(
+    type: K,
+    listener: EventListenerOrEventListenerObject,
+    options ?: boolean | EventListenerOptions): I_MicroDOM < T >;             // Calls the "removeEventListener" method for each set item
   css(obj: object): I_MicroDOM<T>;                                            // Sets the style attribute property passed in the object by key
   attr(obj: object): I_MicroDOM<T>;                                           // Sets the attribute property passed in the object by key
 }
