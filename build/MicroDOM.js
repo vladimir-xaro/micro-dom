@@ -167,10 +167,12 @@ class MicroDOM extends Array {
     nextTick(...cbs) {
         const arr = cbs;
         const current = cbs.shift();
-        current && setTimeout(current, 0);
-        if (arr.length) {
-            this.nextTick(...arr);
-        }
+        current && setTimeout(() => {
+            current();
+            if (arr.length) {
+                this.nextTick(...arr);
+            }
+        }, 0);
         return this;
     }
 }
