@@ -142,4 +142,17 @@ export default class MicroDOM<T extends Element = Element> extends Array impleme
 
     return this;
   }
+
+  nextTick(...cbs: Function[]): I_MicroDOM<T> {
+    const arr = cbs;
+    const current = cbs.shift();
+    
+    current && setTimeout(current, 0);
+
+    if (arr.length) {
+      this.nextTick(...arr);
+    }
+
+    return this;
+  }
 }
