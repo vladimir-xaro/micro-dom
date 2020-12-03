@@ -50,7 +50,15 @@ export default class MicroDOM<T extends Element = Element> extends Array impleme
 
   empty(): I_MicroDOM<T> {
     for (const el of this) {
-      el.innerHTML = '';
+      (el as Element).innerHTML = '';
+    }
+
+    return this;
+  }
+
+  text(text: string): I_MicroDOM<T> {
+    for (const el of this) {
+      (el as Element).textContent = text;
     }
 
     return this;

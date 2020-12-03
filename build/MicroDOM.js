@@ -93,6 +93,12 @@ class MicroDOM extends Array {
         }
         return this;
     }
+    text(text) {
+        for (const el of this) {
+            el.textContent = text;
+        }
+        return this;
+    }
     append(...append) {
         for (const el of this) {
             recursiveAppend(el, ...append);
