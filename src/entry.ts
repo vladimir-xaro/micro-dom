@@ -7,5 +7,5 @@ export default function _<T extends Element = Element>(...args: Array<string | E
     return args;
   }
 
-  return new MicroDOM<T>(...getEls(document, ...args));
+  return new MicroDOM<T>(...getEls<T>(document, ...args));
 }

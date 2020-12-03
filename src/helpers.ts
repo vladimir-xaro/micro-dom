@@ -1,14 +1,14 @@
 import { I_MicroDOM } from "./types";
 
-export function getEls(target: Element | Document, ...els: Array<string | Element>): Element[] {
-  const arr: Element[] = [];
+export function getEls<T extends Element = Element>(target: Element | Document, ...els: Array<string | Element>): T[] {
+  const arr: T[] = [];
 
   for (const el of els) {
     if (typeof el === 'string') {
-      const nodes = target.querySelectorAll(el);
+      const nodes: NodeListOf<T> = target.querySelectorAll(el);
       arr.push(...nodes);
     } else if (el instanceof Element) {
-      arr.push(el);
+      arr.push(el as T);
     }
   }
 
