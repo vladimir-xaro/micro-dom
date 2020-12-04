@@ -1,39 +1,39 @@
 import { getEls, recursiveAppend } from "./helpers";
 import { I_MicroDOM } from "./types";
 
-export default class MicroDOM<T extends Element = Element> extends Array implements I_MicroDOM<T> {
+export default class MicroDOM<T extends Element = Element> extends Array<T> implements I_MicroDOM<T> {
   constructor(...args) {
     super(...args);
   }
 
-  get(...args: Array<string | Element>): I_MicroDOM<T> {
-    let newInstance = new MicroDOM;
+  get<U extends Element = Element>(...args: Array<string | Element>): I_MicroDOM<U> {
+    let newInstance: I_MicroDOM<U> = new MicroDOM<U>();
 
     if (this.length) {
       for (const el of this) {
-        newInstance.push(...getEls(el, ...args));
+        newInstance.push(...getEls<U>(el, ...args));
       }
     } else {
-      newInstance.push(...getEls(document, ...args));
+      newInstance.push(...getEls<U>(document, ...args));
     }
 
     return newInstance;
   }
 
-  create<TagName extends keyof HTMLElementTagNameMap>(...entities: Array<
-    TagName |
+  create<U extends Element = Element>(...entities: Array<
+    string |
     {
-      tagName?: TagName,
+      tagName?: string,
       content?: string | Element | Array<string | Element> | I_MicroDOM<T>
     }
-  >): I_MicroDOM<T> {
-    let newInstance = new MicroDOM;
+  >): I_MicroDOM<U> {
+    let newInstance: I_MicroDOM<U> = new MicroDOM<U>();
 
     for (const entity of entities) {
       if (typeof entity === 'string') {
-        newInstance.push(document.createElement(entity));
+        newInstance.push(document.createElement(entity) as unknown as U);
       } else if (entity instanceof Object) {
-        const el = document.createElement(entity.tagName || 'div');
+        const el = document.createElement(entity.tagName || 'div') as unknown as U;
         if (entity.content) {
           if (Array.isArray(entity.content)) {
             recursiveAppend<T>(el, ...entity.content)
@@ -134,7 +134,7 @@ export default class MicroDOM<T extends Element = Element> extends Array impleme
   css(obj: object): I_MicroDOM<T> {
     for (const el of this) {
       for (const key in obj) {
-        (el as HTMLElement).style[key] = obj[key];
+        (el as unknown as HTMLElement).style[key] = obj[key];
       }
     }
 

@@ -55,7 +55,7 @@ class MicroDOM extends Array {
         super(...args);
     }
     get(...args) {
-        let newInstance = new MicroDOM;
+        let newInstance = new MicroDOM();
         if (this.length) {
             for (const el of this) {
                 newInstance.push(...getEls(el, ...args));
@@ -67,7 +67,7 @@ class MicroDOM extends Array {
         return newInstance;
     }
     create(...entities) {
-        let newInstance = new MicroDOM;
+        let newInstance = new MicroDOM();
         for (const entity of entities) {
             if (typeof entity === 'string') {
                 newInstance.push(document.createElement(entity));
