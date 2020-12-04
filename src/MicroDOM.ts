@@ -56,9 +56,9 @@ export default class MicroDOM<T extends Element = Element> extends Array<T> impl
     return this;
   }
 
-  text(text: string): I_MicroDOM<T> {
+  text(text?: string): I_MicroDOM<T> {
     for (const el of this) {
-      (el as Element).textContent = text;
+      el.textContent = text || '';
     }
 
     return this;

@@ -8,7 +8,7 @@ export interface I_MicroDOM<T extends Element = Element> extends Array<T> {
     }
   >): I_MicroDOM<U>                                                                   // Creates and returns a new instance with new created items
   empty(): I_MicroDOM<T>;                                                             // Remove all child nodes of the set of matched elements from the DOM
-  text(text: string): I_MicroDOM<T>;                                                  // Sets textContent property for each element
+  text(text?: string): I_MicroDOM<T>;                                                 // Sets textContent property for each element
   append(...append: Array<string | Element> | I_MicroDOM<T>): I_MicroDOM<T>;          // Inserts a set of Node objects or DOMString objects after the last child of each array element
   addClass(...classes: string[]): I_MicroDOM<T>;                                      // Adds a class or classes to all array elements
   removeClass(...classes: string[]): I_MicroDOM<T>;                                   // Removes a class or classes from all array elements

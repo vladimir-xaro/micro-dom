@@ -95,7 +95,7 @@ class MicroDOM extends Array {
     }
     text(text) {
         for (const el of this) {
-            el.textContent = text;
+            el.textContent = text || '';
         }
         return this;
     }
