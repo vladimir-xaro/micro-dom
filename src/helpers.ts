@@ -24,3 +24,19 @@ export function recursiveAppend<T extends Element = Element>(el: Element, ...con
     }
   }
 }
+
+
+export function nextTick(...cbs: Function[]): void {
+  const arr = cbs;
+  const current = cbs.shift();
+  
+  current && setTimeout(() => {
+    current();
+
+    if (arr.length) {
+      this.nextTick(...arr);
+    }
+  }, 0);
+
+  return this;
+}

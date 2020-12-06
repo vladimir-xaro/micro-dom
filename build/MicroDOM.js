@@ -21,7 +21,7 @@ __webpack_require__.d(__webpack_exports__, {
   "default": () => /* binding */ src
 });
 
-// UNUSED EXPORTS: MicroDOM
+// UNUSED EXPORTS: MicroDOM, nextTick
 
 ;// CONCATENATED MODULE: ./src/helpers.ts
 function getEls(target, ...els) {
@@ -46,6 +46,17 @@ function recursiveAppend(el, ...content) {
             el.append(entity);
         }
     }
+}
+function nextTick(...cbs) {
+    const arr = cbs;
+    const current = cbs.shift();
+    current && setTimeout(() => {
+        current();
+        if (arr.length) {
+            this.nextTick(...arr);
+        }
+    }, 0);
+    return this;
 }
 
 ;// CONCATENATED MODULE: ./src/MicroDOM.ts
@@ -171,14 +182,7 @@ class MicroDOM extends Array {
         return this;
     }
     nextTick(...cbs) {
-        const arr = cbs;
-        const current = cbs.shift();
-        current && setTimeout(() => {
-            current();
-            if (arr.length) {
-                this.nextTick(...arr);
-            }
-        }, 0);
+        nextTick(...cbs);
         return this;
     }
 }
@@ -197,6 +201,7 @@ function _(...args) {
 
 /* harmony default export */ const src = (_);
 // ===
+
 
 
 

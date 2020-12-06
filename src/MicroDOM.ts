@@ -1,4 +1,4 @@
-import { getEls, recursiveAppend } from "./helpers";
+import { getEls, nextTick, recursiveAppend } from "./helpers";
 import { I_MicroDOM } from "./types";
 
 export default class MicroDOM<T extends Element = Element> extends Array<T> implements I_MicroDOM<T> {
@@ -152,16 +152,7 @@ export default class MicroDOM<T extends Element = Element> extends Array<T> impl
   }
 
   nextTick(...cbs: Function[]): I_MicroDOM<T> {
-    const arr = cbs;
-    const current = cbs.shift();
-    
-    current && setTimeout(() => {
-      current();
-
-      if (arr.length) {
-        this.nextTick(...arr);
-      }
-    }, 0);
+    nextTick(...cbs);
 
     return this;
   }

@@ -15,13 +15,15 @@ export interface I_MicroDOM<T extends Element = Element> extends Array<T> {
   toggleClass(classname: string): I_MicroDOM<T>;                                      // Adds or removes a class for each element of the array, depending on its presence
   hasClass(classname: string, reqtForAll?: boolean): boolean;                         // Determine if any of the agreed members are assigned to this class. Or, if you pass "true" as the second argument, then each element (default: reqtForAll = false)
   addEventListener<K extends keyof HTMLElementEventMap>(
-    type: K,
+    type:     K,
     listener: EventListenerOrEventListenerObject,
-    options?: boolean | AddEventListenerOptions): I_MicroDOM<T>;                      // Calls the "addEventListener" method for each set item
+    options?: boolean | AddEventListenerOptions
+  ): I_MicroDOM<T>;                                                                   // Calls the "addEventListener" method for each set item
   removeEventListener<K extends keyof HTMLElementEventMap>(
-    type: K,
+    type:     K,
     listener: EventListenerOrEventListenerObject,
-    options ?: boolean | EventListenerOptions): I_MicroDOM < T >;                     // Calls the "removeEventListener" method for each set item
+    options?: boolean | EventListenerOptions
+  ): I_MicroDOM <T>;                                                                  // Calls the "removeEventListener" method for each set item
   css(obj: object): I_MicroDOM<T>;                                                    // Sets the style attribute property passed in the object by key
   attr(obj: object): I_MicroDOM<T>;                                                   // Sets the attribute property passed in the object by key
   nextTick(...cbs: Function[]): I_MicroDOM<T>;                                        // Recursively calls each passed function in a new setTimeout(() => {}, 0)

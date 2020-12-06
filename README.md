@@ -1,3 +1,5 @@
+[![DeepScan grade](https://deepscan.io/api/teams/11657/projects/14878/branches/287086/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=11657&pid=14878&bid=287086)
+
 # @xaro/micro-dom
 
 The DOM control micro-library has several functions for manipulating the classes, styles, and attributes of elements. (See all methods below)
@@ -55,6 +57,14 @@ els.nextTick(...cbs);
 // In setTimeout, the first passed callback function is started, and a new setTimeout for the next function, and so on until all functions are executed
 ```
 
+Also, you can only import the nextTick function, which returns void, but also not tied to the MicroDOM instance.
+
+```ts
+import { nextTick } from '@xaro/micro-dom';
+
+nextTick(() => console.log('I\'m call in setTimeout(cb, 0);'));
+```
+
 ## Interface
 
 *types.d.ts*
@@ -76,13 +86,15 @@ export interface I_MicroDOM<T extends Element = Element> extends Array<T> {
   toggleClass(classname: string): I_MicroDOM<T>;                                      // Adds or removes a class for each element of the array, depending on its presence
   hasClass(classname: string, reqtForAll?: boolean): boolean;                         // Determine if any of the agreed members are assigned to this class. Or, if you pass "true" as the second argument, then each element (default: reqtForAll = false)
   addEventListener<K extends keyof HTMLElementEventMap>(
-    type: K,
+    type:     K,
     listener: EventListenerOrEventListenerObject,
-    options?: boolean | AddEventListenerOptions): I_MicroDOM<T>;                      // Calls the "addEventListener" method for each set item
+    options?: boolean | AddEventListenerOptions
+  ): I_MicroDOM<T>;                                                                   // Calls the "addEventListener" method for each set item
   removeEventListener<K extends keyof HTMLElementEventMap>(
-    type: K,
+    type:     K,
     listener: EventListenerOrEventListenerObject,
-    options ?: boolean | EventListenerOptions): I_MicroDOM < T >;                     // Calls the "removeEventListener" method for each set item
+    options?: boolean | EventListenerOptions
+  ): I_MicroDOM <T>;                                                                  // Calls the "removeEventListener" method for each set item
   css(obj: object): I_MicroDOM<T>;                                                    // Sets the style attribute property passed in the object by key
   attr(obj: object): I_MicroDOM<T>;                                                   // Sets the attribute property passed in the object by key
   nextTick(...cbs: Function[]): I_MicroDOM<T>;                                        // Recursively calls each passed function in a new setTimeout(() => {}, 0)
