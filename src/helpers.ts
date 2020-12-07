@@ -34,7 +34,7 @@ export function nextTick(...cbs: Function[]): void {
     current();
 
     if (arr.length) {
-      this.nextTick(...arr);
+      nextTick(...arr);
     }
   }, 0);
 

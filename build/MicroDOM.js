@@ -53,7 +53,7 @@ function nextTick(...cbs) {
     current && setTimeout(() => {
         current();
         if (arr.length) {
-            this.nextTick(...arr);
+            nextTick(...arr);
         }
     }, 0);
     return this;
