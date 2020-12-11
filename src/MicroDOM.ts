@@ -1,64 +1,15 @@
 import { getEls, nextTick, recursiveAppend } from "./helpers";
 import { I_MicroDOM } from "./types";
 
-function log(target: Object, key: string, descriptor: TypedPropertyDescriptor<any>) {
-  // return {
-  //   value(...args: any[]) {
-  //     console.log(`[${target.constructor.name}] ${key}()`);
-  //     console.log('[d]', target, key, descriptor, args);
-  //     // const result = value.value.apply(this, args);
-  //     return descriptor.value.apply(target, args);
-  //     // return value.value.bind(this);
-  //   }
-  // }
-  
-  // descriptor.value = (...args: any[]) => {
-  //   console.log(`[${target.constructor.name}] ${key}()`);
-
-  //   // return descriptor.value.apply(target, args);
-  //   // descriptor.value.apply(target, args);
-  //   // return;
-  // }
-
-  return {
-    value(...args: any[]): number {
-      console.log(`[${target.constructor.name}] ${key}()`);
-      // return descriptor.value.apply(target, args);
-      let result = descriptor.value.call(target, args);
-      console.log(result * 2)
-      return 0;
-    }
-  }
-}
-
-function iterateDecorator<T extends Element = Element>(target: I_MicroDOM<T>, key: string, descriptor: TypedPropertyDescriptor<any>) {
-  return {
-    value(...args: any[]) {
-      for (const el of this) {
-        descriptor.value.call(target, args);
-      }
-      return descriptor.value.call(target, args);
-    }
-  }
-
-  return
-}
-
-function iterate<T extends Element = Element>(target: I_MicroDOM, cb: Function) {
-  
-}
-
 export default class MicroDOM<T extends Element = Element> extends Array<T> implements I_MicroDOM<T> {
   constructor(...args) {
     super(...args);
   }
 
-  @log
-  test(a: any): number {
-    console.log('[test]');
-    return 1;
-  }
 
+  /**
+   * Returns a new instance containing the elements with the passed selectors and elements (or from the document if the current instance is empty)
+   */
   get<U extends Element = Element>(...args: Array<string | Element>): I_MicroDOM<U> {
     let newInstance: I_MicroDOM<U> = new MicroDOM<U>();
 
@@ -73,6 +24,10 @@ export default class MicroDOM<T extends Element = Element> extends Array<T> impl
     return newInstance;
   }
 
+
+  /**
+   * Returns a new instance with new created elements according to the passed parameters
+   */
   create<U extends Element = Element>(...entities: Array<
     string |
     {
@@ -101,68 +56,73 @@ export default class MicroDOM<T extends Element = Element> extends Array<T> impl
     return newInstance;
   }
 
+
+  /**
+   * Clears the contents of each element in the set and returns the instance itself
+   */
   empty(): I_MicroDOM<T> {
-    // for (const el of this) {
-    //   (el as Element).innerHTML = '';
-    // }
     this.forEach(el => (el as Element).innerHTML = '');
 
     return this;
   }
 
+
+  /**
+   * Sets the textContent property for each collection item and returns an instance
+   */
   text(text?: string): I_MicroDOM<T> {
-    // for (const el of this) {
-    //   el.textContent = text || '';
-    // }
     this.forEach(el => el.textContent = text || '');
 
     return this;
   }
 
+
+  /**
+   * Inserts a set of Node objects or DOMString objects after the last child of each array element
+   */
   append(...append: Array<string | Element> | I_MicroDOM<T>): I_MicroDOM<T> {
-    // for (const el of this) {
-    //   recursiveAppend(el, ...append);
-    // }
     this.forEach(el => recursiveAppend(el, ...append));
 
     return this;
   }
 
+
+  /**
+   * Adds a class or classes to all array elements
+   */
   addClass(...classes: string[]): I_MicroDOM<T> {
-    // for (const el of this) {
-    //   el.classList.add(...classes);
-    // }
     this.forEach(el => el.classList.add(...classes));
 
     return this;
   }
 
+
+  /**
+   * Removes a class or classes from all array elements
+   */
   removeClass(...classes: string[]): I_MicroDOM<T> {
-    // for (const el of this) {
-    //   el.classList.remove(...classes);
-    // }
     this.forEach(el => el.classList.remove(...classes));
 
     return this;
   }
 
+
+  /**
+   * Adds or removes a class for each element of the array, depending on its presence
+   */
   toggleClass(classname: string): I_MicroDOM<T> {
-    // for (const el of this) {
-    //   el.classList.toggle(classname);
-    // }
     this.forEach(el => el.classList.toggle(classname));
 
     return this;
   }
 
+
+  /**
+   * Determine if any of the agreed members are assigned to this class. Or, if you pass "true" as the second argument, then each element (default: reqtForAll = false)
+   */
   hasClass(classname: string, reqtForAll: boolean = false): boolean {
     if (reqtForAll) { // The presence of a class for each element of the set
       let number = 0;
-      // for (const el of this) {
-      //   if ((el as T).classList.contains(classname)) {
-      //     number++;
-      //   }
-      // }
       this.forEach(el => {
         if ((el as T).classList.contains(classname)) {
           number++;
@@ -179,46 +139,50 @@ export default class MicroDOM<T extends Element = Element> extends Array<T> impl
     }
   }
 
+
+  /**
+   * Calls the "addEventListener" method for each set item
+   */
   addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): I_MicroDOM<T> {
-    // for (const el of this) {
-    //   el.addEventListener(type, listener, options);
-    // }
     this.forEach(el => el.addEventListener(type, listener, options));
 
     return this;
   }
 
+
+  /**
+   * Calls the "removeEventListener" method for each set item
+   */
   removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): I_MicroDOM<T> {
-    // for (const el of this) {
-    //   (el as T).removeEventListener(type, listener, options);
-    // }
     this.forEach(el => el.removeEventListener(type, listener, options));
 
     return this;
   }
 
+
+  /**
+   * Sets the style attribute property passed in the object by key
+   */
   css(obj: object): I_MicroDOM<T> {
-    // for (const el of this) {
-    //   for (const key in obj) {
-    //     (el as unknown as HTMLElement).style[key] = obj[key];
-    //   }
-    // }
     this.forEach(el => Object.keys(obj).forEach(key => (el as unknown as HTMLElement).style[key] = obj[key]));
 
     return this;
   }
 
+
+  /**
+   * Sets the attribute property passed in the object by key
+   */
   attr(obj: object): I_MicroDOM<T> {
-    // for (const el of this) {
-    //   for (const key in obj) {
-    //     el.setAttribute(key, obj[key]);
-    //   }
-    // }
     this.forEach(el => Object.keys(obj).forEach(key => el.setAttribute(key, obj[key])));
 
     return this;
   }
 
+
+  /**
+   * Recursively calls each passed function in a new setTimeout(() => {}, 0)
+   */
   nextTick(...cbs: Function[]): I_MicroDOM<T> {
     nextTick(...cbs);
 
