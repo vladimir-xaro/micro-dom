@@ -7,5 +7,6 @@
 /src/scss
 /src/index.dev.ts
 
+.env
 package-lock.json
 tsconfig.json
