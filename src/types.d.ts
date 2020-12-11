@@ -1,4 +1,5 @@
 export interface I_MicroDOM<T extends Element = Element> extends Array<T> {
+  test(a: any);
   get<U extends Element = Element>(...args: Array<string | Element>): I_MicroDOM<U>;  // Returns a new instance with elements from each element of the current instance (or from the document if the current instance is empty)
   create<U extends Element = Element>(...entities: Array<
     string |
