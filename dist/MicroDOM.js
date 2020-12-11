@@ -65,6 +65,9 @@ class MicroDOM extends Array {
     constructor(...args) {
         super(...args);
     }
+    /**
+     * Returns a new instance containing the elements with the passed selectors and elements (or from the document if the current instance is empty)
+     */
     get(...args) {
         let newInstance = new MicroDOM();
         if (this.length) {
@@ -77,6 +80,9 @@ class MicroDOM extends Array {
         }
         return newInstance;
     }
+    /**
+     * Returns a new instance with new created elements according to the passed parameters
+     */
     create(...entities) {
         let newInstance = new MicroDOM();
         for (const entity of entities) {
@@ -98,50 +104,59 @@ class MicroDOM extends Array {
         }
         return newInstance;
     }
+    /**
+     * Clears the contents of each element in the set and returns the instance itself
+     */
     empty() {
-        for (const el of this) {
-            el.innerHTML = '';
-        }
+        this.forEach(el => el.innerHTML = '');
         return this;
     }
+    /**
+     * Sets the textContent property for each collection item and returns an instance
+     */
     text(text) {
-        for (const el of this) {
-            el.textContent = text || '';
-        }
+        this.forEach(el => el.textContent = text || '');
         return this;
     }
+    /**
+     * Inserts a set of Node objects or DOMString objects after the last child of each array element
+     */
     append(...append) {
-        for (const el of this) {
-            recursiveAppend(el, ...append);
-        }
+        this.forEach(el => recursiveAppend(el, ...append));
         return this;
     }
+    /**
+     * Adds a class or classes to all array elements
+     */
     addClass(...classes) {
-        for (const el of this) {
-            el.classList.add(...classes);
-        }
+        this.forEach(el => el.classList.add(...classes));
         return this;
     }
+    /**
+     * Removes a class or classes from all array elements
+     */
     removeClass(...classes) {
-        for (const el of this) {
-            el.classList.remove(...classes);
-        }
+        this.forEach(el => el.classList.remove(...classes));
         return this;
     }
+    /**
+     * Adds or removes a class for each element of the array, depending on its presence
+     */
     toggleClass(classname) {
-        for (const el of this) {
-            el.classList.toggle(classname);
-        }
+        this.forEach(el => el.classList.toggle(classname));
         return this;
     }
+    /**
+     * Determine if any of the agreed members are assigned to this class. Or, if you pass "true" as the second argument, then each element (default: reqtForAll = false)
+     */
     hasClass(classname, reqtForAll = false) {
         if (reqtForAll) { // The presence of a class for each element of the set
             let number = 0;
-            for (const el of this) {
+            this.forEach(el => {
                 if (el.classList.contains(classname)) {
                     number++;
                 }
-            }
+            });
             return number === this.length;
         }
         else { // the presence of a class for at least one element of the set
@@ -153,34 +168,37 @@ class MicroDOM extends Array {
             return false;
         }
     }
+    /**
+     * Calls the "addEventListener" method for each set item
+     */
     addEventListener(type, listener, options) {
-        for (const el of this) {
-            el.addEventListener(type, listener, options);
-        }
+        this.forEach(el => el.addEventListener(type, listener, options));
         return this;
     }
+    /**
+     * Calls the "removeEventListener" method for each set item
+     */
     removeEventListener(type, listener, options) {
-        for (const el of this) {
-            el.removeEventListener(type, listener, options);
-        }
+        this.forEach(el => el.removeEventListener(type, listener, options));
         return this;
     }
+    /**
+     * Sets the style attribute property passed in the object by key
+     */
     css(obj) {
-        for (const el of this) {
-            for (const key in obj) {
-                el.style[key] = obj[key];
-            }
-        }
+        this.forEach(el => Object.keys(obj).forEach(key => el.style[key] = obj[key]));
         return this;
     }
+    /**
+     * Sets the attribute property passed in the object by key
+     */
     attr(obj) {
-        for (const el of this) {
-            for (const key in obj) {
-                el.setAttribute(key, obj[key]);
-            }
-        }
+        this.forEach(el => Object.keys(obj).forEach(key => el.setAttribute(key, obj[key])));
         return this;
     }
+    /**
+     * Recursively calls each passed function in a new setTimeout(() => {}, 0)
+     */
     nextTick(...cbs) {
         nextTick(...cbs);
         return this;

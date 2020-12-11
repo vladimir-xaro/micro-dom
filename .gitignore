@@ -1,6 +1,5 @@
 .DS_Store
 
-# /build
 /dev
 /node_modules
 /webpack
