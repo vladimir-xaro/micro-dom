@@ -161,6 +161,16 @@ export default class MicroDOM<T extends Element = Element> extends Array<T> impl
 
 
   /**
+   * Calls dispatchEvent with an event of the specified type for each item in the set
+   */
+  fireEvent(type: string): I_MicroDOM<T> {
+    this.forEach(el => el.dispatchEvent(new Event(type)));
+
+    return this;
+  }
+
+
+  /**
    * Sets the style attribute property passed in the object by key
    */
   css(obj: object): I_MicroDOM<T> {

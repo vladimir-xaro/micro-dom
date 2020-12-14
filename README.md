@@ -15,9 +15,9 @@ $ npm install @xaro/micro-dom
 ## Usage
 
 ```ts
-import _ from '@xaro/micro-dom';
+import _, { I_MicroDOM } from '@xaro/micro-dom';
 
-const els = _('.test-1', document.querySelector('.test-2'), ...document.querySelectorAll('.test-3') /* ... */);
+const els: I_MicroDOM = _('.test-1', document.querySelector('.test-2'), ...document.querySelectorAll('.test-3') /* ... */);
 
 els.addClass('class-A', 'class-B' /* ... */)
   .removeClass('class-A', 'class-B' /* ... */)
@@ -70,16 +70,16 @@ nextTick(() => console.log('I\'m call in setTimeout(cb, 0);'));
 *types.d.ts*
 ```ts
 export interface I_MicroDOM<T extends Element = Element> extends Array<T> {
-  get<U extends Element = Element>(...args: Array<string | Element>): I_MicroDOM<U>;  // Returns a new instance with elements from each element of the current instance (or from the document if the current instance is empty)
+  get<U extends Element = Element>(...args: Array<string | Element>): I_MicroDOM<U>;  // Returns a new instance containing the elements with the passed selectors and elements (or from the document if the current instance is empty)
   create<U extends Element = Element>(...entities: Array<
     string |
     {
       tagName?: string,
       content?: string | Element | Array<string | Element> | I_MicroDOM<T>
     }
-  >): I_MicroDOM<U>                                                                   // Creates and returns a new instance with new created items
-  empty(): I_MicroDOM<T>;                                                             // Remove all child nodes of the set of matched elements from the DOM
-  text(text?: string): I_MicroDOM<T>;                                                 // Sets textContent property for each element
+  >): I_MicroDOM<U>                                                                   // Returns a new instance with new created elements according to the passed parameters
+  empty(): I_MicroDOM<T>;                                                             // Clears the contents of each element in the set
+  text(text?: string): I_MicroDOM<T>;                                                 // Sets the textContent property for each collection item
   append(...append: Array<string | Element> | I_MicroDOM<T>): I_MicroDOM<T>;          // Inserts a set of Node objects or DOMString objects after the last child of each array element
   addClass(...classes: string[]): I_MicroDOM<T>;                                      // Adds a class or classes to all array elements
   removeClass(...classes: string[]): I_MicroDOM<T>;                                   // Removes a class or classes from all array elements
@@ -95,6 +95,7 @@ export interface I_MicroDOM<T extends Element = Element> extends Array<T> {
     listener: EventListenerOrEventListenerObject,
     options?: boolean | EventListenerOptions
   ): I_MicroDOM <T>;                                                                  // Calls the "removeEventListener" method for each set item
+  fireEvent(type: string): I_MicroDOM<T>;                                             // Calls dispatchEvent with an event of the specified type for each item in the set
   css(obj: object): I_MicroDOM<T>;                                                    // Sets the style attribute property passed in the object by key
   attr(obj: object): I_MicroDOM<T>;                                                   // Sets the attribute property passed in the object by key
   nextTick(...cbs: Function[]): I_MicroDOM<T>;                                        // Recursively calls each passed function in a new setTimeout(() => {}, 0)

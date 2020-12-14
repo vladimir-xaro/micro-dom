@@ -24,6 +24,7 @@ export interface I_MicroDOM<T extends Element = Element> extends Array<T> {
     listener: EventListenerOrEventListenerObject,
     options?: boolean | EventListenerOptions
   ): I_MicroDOM <T>;                                                                  // Calls the "removeEventListener" method for each set item
+  fireEvent(type: string): I_MicroDOM<T>;                                             // Calls dispatchEvent with an event of the specified type for each item in the set
   css(obj: object): I_MicroDOM<T>;                                                    // Sets the style attribute property passed in the object by key
   attr(obj: object): I_MicroDOM<T>;                                                   // Sets the attribute property passed in the object by key
   nextTick(...cbs: Function[]): I_MicroDOM<T>;                                        // Recursively calls each passed function in a new setTimeout(() => {}, 0)
