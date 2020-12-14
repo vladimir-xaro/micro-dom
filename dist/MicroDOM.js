@@ -183,6 +183,13 @@ class MicroDOM extends Array {
         return this;
     }
     /**
+     * Calls dispatchEvent with an event of the specified type for each item in the set
+     */
+    fireEvent(type) {
+        this.forEach(el => el.dispatchEvent(new Event(type)));
+        return this;
+    }
+    /**
      * Sets the style attribute property passed in the object by key
      */
     css(obj) {
