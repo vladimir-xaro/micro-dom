@@ -4,12 +4,15 @@ import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 // import commonjs from '@rollup/plugin-commonjs';
 import cleanup from 'rollup-plugin-cleanup';
+import deepmerge from 'deepmerge';
+
+const merge = (x, y) => deepmerge(x, y, { arrayMerge: (destination, source) => [...destination, ...source] });
 
 export default CLIArgs => {
   const mode = process.env.BUILD || 'development';
   const isDev = mode === 'development';
 
-  const name = '$';
+  const name = '_';
   const filename = 'micro-dom';
 
   let result = [];
@@ -35,7 +38,7 @@ export default CLIArgs => {
     })
   } else {
     const base = {
-      input: 'src/index.ts',
+      // input: 'src/index.ts',
       output: [],
       plugins: [
         cleanup({
@@ -45,11 +48,12 @@ export default CLIArgs => {
     };
     const baseOutput = {
       sourcemap: true,
-      name,
+      name
     }
 
     result.push(
-      Object.assign({}, base, {
+      merge(base, {
+        input: 'src/entry.ts',
         plugins: [
           resolve({
             browser: true,
@@ -59,7 +63,8 @@ export default CLIArgs => {
           }),
         ]
       }),
-      Object.assign({}, base, {
+      merge(base, {
+        input: 'src/index.ts',
         plugins: [
           typescript({
             target: 'esnext'
@@ -70,11 +75,13 @@ export default CLIArgs => {
 
     // es5
     result[0].output.push(
-      Object.assign({}, baseOutput, {
+      merge(baseOutput, {
+        exports: 'default',
         format: 'iife',
         file: `dist/${filename}.js`
       }),
-      Object.assign({}, baseOutput, {
+      merge(baseOutput, {
+        exports: 'default',
         format: 'iife',
         file: `dist/${filename}.min.js`,
         plugins: [
@@ -84,12 +91,12 @@ export default CLIArgs => {
     );
 
     // es
-    result[0].output.push(
-      Object.assign({}, baseOutput, {
+    result[1].output.push(
+      merge(baseOutput, {
         format: 'es',
         file: `dist/${filename}.es.js`,
       }),
-      Object.assign({}, baseOutput, {
+      merge(baseOutput, {
         format: 'es',
         file: `dist/${filename}.es.min.js`,
         plugins: [
