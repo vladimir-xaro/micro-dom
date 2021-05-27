@@ -65,6 +65,24 @@ import { nextTick } from '@xaro/micro-dom';
 nextTick(() => console.log('I\'m call in setTimeout(cb, 0);'));
 ```
 
+## Files
+### Sources
+- src/MicroDOM.ts
+  > Main class
+- src/entry.ts
+  > Entry function: _(...)
+- src/helpers.ts
+  > nextTick(...cb[]) helper: setTimeout wrap with recursive feature (every next callback run in new timer)
+
+### Bundles
+- micro-dom.**es**.js
+  > export entry function, MicroDOM class and nextTick helper
+- micro-dom.js & micro-dom.**umd**.js
+  > export only entry function: _(...);
+
+
+
+
 ## Interface
 
 *types.d.ts*

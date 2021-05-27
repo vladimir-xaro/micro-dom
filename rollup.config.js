@@ -1,110 +1,117 @@
 import typescript from '@rollup/plugin-typescript';
-// import preprocess from "svelte-preprocess";
 import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
-// import commonjs from '@rollup/plugin-commonjs';
-import cleanup from 'rollup-plugin-cleanup';
-import deepmerge from 'deepmerge';
+import scss from "rollup-plugin-scss";
+// import deepmerge from 'deepmerge';
+import { babel } from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
 
-const merge = (x, y) => deepmerge(x, y, { arrayMerge: (destination, source) => [...destination, ...source] });
+// const arrayMerge = (destination, source) => [ ...destination, ...source ];
 
-export default CLIArgs => {
-  const mode = process.env.BUILD || 'development';
-  const isDev = mode === 'development';
+const isDev = process.env.NODE_ENV !== 'production'
 
-  const name = '_';
-  const filename = 'micro-dom';
+const filename = 'micro-dom';
+const name = 'MicroDOM';
 
-  let result = [];
+const config = [];
 
-  if (isDev) {
-    result.push({
-      input: 'src/index.dev.ts',
-      output: {
+if (isDev) {  // Dev
+  config.push({
+    input: 'src/index.dev.ts',
+    output: {
+      sourcemap: true,
+      name,
+      format: 'iife',
+      file: `dev/${filename}.js`,
+      plugins: [
+        terser({
+          format: {
+            indent_level: 2,
+            beautify: true,
+            comments: false,
+          }
+        }),
+      ]
+    },
+    plugins: [
+      typescript({
+        target: 'esnext',
+      }),
+      resolve({
+        browser: true
+      }),
+      scss({
+        watch: 'src/scss/',
+        output: `dev/${filename}.dev.css`,
+        failOnError: true,
+      }),
+    ]
+  });
+} else {  // Prod
+  config.push({
+    input: 'src/index.es.ts',
+    external: ['@xaro/event-emitter', '@xaro/micro-dom'],
+    output: [
+      {
+        sourcemap: true,
+        name,
+        format: 'es',
+        file: `dist/${filename}.es.js`,
+      }
+    ],
+    plugins: [
+      typescript({
+        target: 'esnext',
+      }),
+      terser({
+        format: {
+          beautify: true,
+          comments: true,
+        }
+      }),
+    ]
+  }, {
+    input: 'src/index.ts',
+    output: [
+      {
         sourcemap: true,
         name,
         format: 'iife',
-        file: `dev/${filename}.js`,
-        plugins: [
-          resolve({
-            browser: true,
-          }),
-          typescript({
-            target: 'es5'
-          }),
-        ]
-      },
-      plugins: [],
-    })
-  } else {
-    const base = {
-      // input: 'src/index.ts',
-      output: [],
-      plugins: [
-        cleanup({
-          comments: 'none'
-        }),
-      ],
-    };
-    const baseOutput = {
-      sourcemap: true,
-      name
-    }
-
-    result.push(
-      merge(base, {
-        input: 'src/entry.ts',
-        plugins: [
-          resolve({
-            browser: true,
-          }),
-          typescript({
-            target: 'es5'
-          }),
-        ]
+        file: `dist/${filename}.js`,
+      }, {
+        sourcemap: true,
+        name,
+        format: 'umd',
+        file: `dist/${filename}.umd.js`,
+      }
+    ],
+    plugins: [
+      typescript({
+        target: 'esnext',
       }),
-      merge(base, {
-        input: 'src/index.ts',
-        plugins: [
-          typescript({
-            target: 'esnext'
-          }),
-        ]
+      commonjs(),
+      terser({
+        format: {
+          beautify: true,
+          comments: true,
+        }
       }),
-    );
-
-    // es5
-    result[0].output.push(
-      merge(baseOutput, {
-        exports: 'default',
-        format: 'iife',
-        file: `dist/${filename}.js`
+      resolve({
+        browser: true,
       }),
-      merge(baseOutput, {
-        exports: 'default',
-        format: 'iife',
-        file: `dist/${filename}.min.js`,
-        plugins: [
-          terser(),
-        ]
+      babel({
+        babelHelpers: 'bundled',
+        presets: [
+          [
+            "@babel/preset-env",
+            {
+              targets: "defaults"
+            }
+          ]
+        ],
       }),
-    );
-
-    // es
-    result[1].output.push(
-      merge(baseOutput, {
-        format: 'es',
-        file: `dist/${filename}.es.js`,
-      }),
-      merge(baseOutput, {
-        format: 'es',
-        file: `dist/${filename}.es.min.js`,
-        plugins: [
-          terser(),
-        ]
-      }),
-    );
-  }
-
-  return result;
+    ]
+  });
 }
+
+export default config;

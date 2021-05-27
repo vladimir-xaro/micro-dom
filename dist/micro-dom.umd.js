@@ -1,40 +1,42 @@
-var MicroDOM = function() {
+!function(t, e) {
+    "object" == typeof exports && "undefined" != typeof module ? module.exports = e() : "function" == typeof define && define.amd ? define(e) : (t = "undefined" != typeof globalThis ? globalThis : t || self).MicroDOM = e();
+}(this, (function() {
     "use strict";
     function t(t, ...e) {
         const s = [];
-        for (const r of e) if ("string" == typeof r) {
-            const e = t.querySelectorAll(r);
+        for (const n of e) if ("string" == typeof n) {
+            const e = t.querySelectorAll(n);
             s.push(...e);
-        } else r instanceof Element && s.push(r);
+        } else n instanceof Element && s.push(n);
         return s;
     }
     function e(t, ...s) {
-        for (const r of s) Array.isArray(r) ? e(t, ...r) : t.append(r);
+        for (const n of s) Array.isArray(n) ? e(t, ...n) : t.append(n);
     }
     function s(...t) {
-        const e = t, r = t.shift();
-        return r && setTimeout((() => {
-            r(), e.length && s(...e);
+        const e = t, n = t.shift();
+        return n && setTimeout((() => {
+            n(), e.length && s(...e);
         }), 0), this;
     }
-    class r extends Array {
+    class n extends Array {
         constructor(...t) {
             super(...t);
         }
         /**
          * Returns a new instance containing the elements with the passed selectors and elements (or from the document if the current instance is empty)
          */        get(...e) {
-            let s = new r;
-            if (this.length) for (const r of this) s.push(...t(r, ...e)); else s.push(...t(document, ...e));
+            let s = new n;
+            if (this.length) for (const n of this) s.push(...t(n, ...e)); else s.push(...t(document, ...e));
             return s;
         }
         /**
          * Returns a new instance with new created elements according to the passed parameters
          */        create(...t) {
-            let s = new r;
-            for (const r of t) if ("string" == typeof r) s.push(document.createElement(r)); else if (r instanceof Object) {
-                const t = document.createElement(r.tagName || "div");
-                r.content && (Array.isArray(r.content) ? e(t, ...r.content) : e(t, r.content)), 
+            let s = new n;
+            for (const n of t) if ("string" == typeof n) s.push(document.createElement(n)); else if (n instanceof Object) {
+                const t = document.createElement(n.tagName || "div");
+                n.content && (Array.isArray(n.content) ? e(t, ...n.content) : e(t, n.content)), 
                 s.push(t);
             }
             return s;
@@ -86,12 +88,12 @@ var MicroDOM = function() {
         /**
          * Calls the "addEventListener" method for each set item
          */        addEventListener(t, e, s) {
-            return this.forEach((r => r.addEventListener(t, e, s))), this;
+            return this.forEach((n => n.addEventListener(t, e, s))), this;
         }
         /**
          * Calls the "removeEventListener" method for each set item
          */        removeEventListener(t, e, s) {
-            return this.forEach((r => r.removeEventListener(t, e, s))), this;
+            return this.forEach((n => n.removeEventListener(t, e, s))), this;
         }
         /**
          * Calls dispatchEvent with an event of the specified type for each item in the set
@@ -116,7 +118,7 @@ var MicroDOM = function() {
         }
     }
     return function(...e) {
-        return e instanceof r ? e : new r(...t(document, ...e));
+        return e instanceof n ? e : new n(...t(document, ...e));
     };
-}();
-//# sourceMappingURL=micro-dom.js.map
+}));
+//# sourceMappingURL=micro-dom.umd.js.map
