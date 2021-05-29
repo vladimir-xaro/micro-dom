@@ -1,4 +1,4 @@
-export default function _<T extends Element = Element>(...args: Array<string | Element>): MicroDOM<T>;
+export default function _<T extends Element = Element>(...args: Array<string | Element> | MicroDOM<T>): MicroDOM<T>;
 
 export class MicroDOM<T extends Element = Element> extends Array<T> {
   get<U extends Element = Element>(...args: Array<string | Element>): MicroDOM<U>;  // Returns a new instance containing the elements with the passed selectors and elements (or from the document if the current instance is empty)
