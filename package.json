@@ -1,6 +1,6 @@
 {
   "name": "@xaro/micro-dom",
-  "version": "0.1.20",
+  "version": "0.1.21",
   "description": "",
   "main": "./dist/micro-dom.es.js",
   "types": "./dist/micro-dom.d.ts",
