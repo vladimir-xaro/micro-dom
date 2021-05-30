@@ -1,6 +1,6 @@
 import { I_MicroDOM } from "./types";
 
-export function getEls<T extends Element = Element>(target: Element | Document, ...els: Array<string | Element>): T[] {
+export function getEls<T extends Element = Element>(target: Element | Document, ...els: Array<string | T | I_MicroDOM<T>>): T[] {
   const arr: T[] = [];
 
   for (const el of els) {
@@ -15,7 +15,7 @@ export function getEls<T extends Element = Element>(target: Element | Document, 
   return arr;
 }
 
-export function recursiveAppend<T extends Element = Element>(el: Element, ...content: Array<string | Element> | I_MicroDOM<T>) {
+export function recursiveAppend<T extends Element = Element>(el: Element, ...content: Array<string | Element | I_MicroDOM<T>>) {
   for (const entity of content) {
     if (Array.isArray(entity)) {
       recursiveAppend(el, ...entity);

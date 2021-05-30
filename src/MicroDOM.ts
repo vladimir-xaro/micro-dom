@@ -10,7 +10,7 @@ export default class MicroDOM<T extends Element = Element> extends Array<T> impl
   /**
    * Returns a new instance containing the elements with the passed selectors and elements (or from the document if the current instance is empty)
    */
-  get<U extends Element = Element>(...args: Array<string | Element>): I_MicroDOM<U> {
+  get<U extends Element = Element>(...args: Array<string | U | I_MicroDOM<U>>): I_MicroDOM<U> {
     let newInstance: I_MicroDOM<U> = new MicroDOM<U>();
 
     if (this.length) {
