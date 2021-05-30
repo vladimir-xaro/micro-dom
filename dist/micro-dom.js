@@ -72,16 +72,14 @@ var MicroDOM = function() {
         /**
          * Determine if any of the agreed members are assigned to this class. Or, if you pass "true" as the second argument, then each element (default: reqtForAll = false)
          */        hasClass(t, e = !1) {
-            if (e) {
-                // The presence of a class for each element of the set
-                let e = 0;
-                return this.forEach((s => {
-                    s.classList.contains(t) && e++;
-                })), e === this.length;
-            }
+            let s = new r;
+            if (e) // The presence of a class for each element of the set
+            return this.forEach((e => {
+                e.classList.contains(t) && s.push(e);
+            })), s;
             // the presence of a class for at least one element of the set
-            for (const e of this) if (e.classList.contains(t)) return !0;
-            return !1;
+            for (const e of this) e.classList.contains(t) && s.push(e);
+            return s;
         }
         /**
          * Calls the "addEventListener" method for each set item

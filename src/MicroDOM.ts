@@ -120,23 +120,24 @@ export default class MicroDOM<T extends Element = Element> extends Array<T> impl
   /**
    * Determine if any of the agreed members are assigned to this class. Or, if you pass "true" as the second argument, then each element (default: reqtForAll = false)
    */
-  hasClass(classname: string, reqtForAll: boolean = false): boolean {
+  hasClass(classname: string, reqtForAll: boolean = false): I_MicroDOM<T> {
+    let newInstance: I_MicroDOM<T> = new MicroDOM<T>();
+
     if (reqtForAll) { // The presence of a class for each element of the set
-      let number = 0;
       this.forEach(el => {
         if ((el as T).classList.contains(classname)) {
-          number++;
+          newInstance.push(el);
         }
       })
-      return number === this.length;
+      return newInstance;
     } else {          // the presence of a class for at least one element of the set
       for (const el of this) {
         if ((el as T).classList.contains(classname)) {
-          return true;
+          newInstance.push(el);
         }
       }
-      return false;
     }
+    return newInstance;
   }
 
 

@@ -13,7 +13,7 @@ export interface I_MicroDOM<T extends Element = Element> extends Array<T> {
   addClass(...classes: string[]): I_MicroDOM<T>;                                                // Adds a class or classes to all array elements
   removeClass(...classes: string[]): I_MicroDOM<T>;                                             // Removes a class or classes from all array elements
   toggleClass(classname: string): I_MicroDOM<T>;                                                // Adds or removes a class for each element of the array, depending on its presence
-  hasClass(classname: string, reqtForAll?: boolean): boolean;                                   // Determine if any of the agreed members are assigned to this class. Or, if you pass "true" as the second argument, then each element (default: reqtForAll = false)
+  hasClass(classname: string, reqtForAll?: boolean): I_MicroDOM<T>;                             // Returns new MicroDOM instance with element which has passed css class. If you pass "true" as the second argument, then returns all elements has passed class in set (default: reqtForAll = false)
   addEventListener<K extends keyof HTMLElementEventMap>(
     type:     K,
     listener: EventListenerOrEventListenerObject,
