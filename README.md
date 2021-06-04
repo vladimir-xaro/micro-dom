@@ -120,7 +120,7 @@ export class MicroDOM<T extends Element = Element> extends Array<T> {
   nextTick(...cbs: Array<Function | [ Function, number? ]>): MicroDOM<T>;                   // Recursively calls each passed function in a new setTimeout(() => {}, 0)
 }
 
-export function nextTick(...cbs: Function[]...cbs: Array<Function | [ Function, number? ]>): void;
+export function nextTick(...cbs: Array<Function | [ Function, number? ]>): void;
 ```
 
 ## License
