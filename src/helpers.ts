@@ -15,7 +15,7 @@ export function getEls<T extends Element = Element>(target: Element | Document, 
   return arr;
 }
 
-export function recursiveAppend<T extends Element = Element>(el: Element, ...content: Array<string | Element | I_MicroDOM<T>>) {
+export function recursiveAppend<T extends Element = Element>(el: Element, ...content: Array<string | Element | I_MicroDOM<T>>): void {
   for (const entity of content) {
     if (Array.isArray(entity)) {
       recursiveAppend(el, ...entity);
@@ -25,18 +25,23 @@ export function recursiveAppend<T extends Element = Element>(el: Element, ...con
   }
 }
 
-
-export function nextTick(...cbs: Function[]): void {
-  const arr = cbs;
-  const current = cbs.shift();
-  
-  current && setTimeout(() => {
-    current();
-
-    if (arr.length) {
-      nextTick(...arr);
+function tickHelper(cbs: Array<Function | [ Function, number? ]>, cb: Function, num: number = 0): void {
+  setTimeout(() => {
+    cb();
+    if (cbs.length) {
+      nextTick(...cbs);
     }
-  }, 0);
+  }, num)
+}
+
+export function nextTick(...cbs: Array<Function | [ Function, number? ]>) {
+  const current = cbs.shift();
+
+  if (typeof current === 'function') {
+    tickHelper(cbs, current);
+  } else if (Array.isArray(current)) {
+    tickHelper(cbs, current[0], current[1]);
+  }
 
   return this;
 }

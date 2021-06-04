@@ -3,120 +3,92 @@
 }(this, (function() {
     "use strict";
     function t(t, ...e) {
-        const s = [];
-        for (const n of e) if ("string" == typeof n) {
-            const e = t.querySelectorAll(n);
-            s.push(...e);
-        } else n instanceof Element && s.push(n);
-        return s;
+        const n = [];
+        for (const s of e) if ("string" == typeof s) {
+            const e = t.querySelectorAll(s);
+            n.push(...e);
+        } else s instanceof Element && n.push(s);
+        return n;
     }
-    function e(t, ...s) {
-        for (const n of s) Array.isArray(n) ? e(t, ...n) : t.append(n);
+    function e(t, ...n) {
+        for (const s of n) Array.isArray(s) ? e(t, ...s) : t.append(s);
+    }
+    function n(t, e, n = 0) {
+        setTimeout((() => {
+            e(), t.length && s(...t);
+        }), n);
     }
     function s(...t) {
-        const e = t, n = t.shift();
-        return n && setTimeout((() => {
-            n(), e.length && s(...e);
-        }), 0), this;
+        const e = t.shift();
+        return "function" == typeof e ? n(t, e) : Array.isArray(e) && n(t, e[0], e[1]), 
+        this;
     }
-    class n extends Array {
+    class r extends Array {
         constructor(...t) {
             super(...t);
         }
-        /**
-         * Returns a new instance containing the elements with the passed selectors and elements (or from the document if the current instance is empty)
-         */        get(...e) {
-            let s = new n;
-            if (this.length) for (const n of this) s.push(...t(n, ...e)); else s.push(...t(document, ...e));
-            return s;
+        get(...e) {
+            let n = new r;
+            if (this.length) for (const s of this) n.push(...t(s, ...e)); else n.push(...t(document, ...e));
+            return n;
         }
-        /**
-         * Returns a new instance with new created elements according to the passed parameters
-         */        create(...t) {
-            let s = new n;
-            for (const n of t) if ("string" == typeof n) s.push(document.createElement(n)); else if (n instanceof Object) {
-                const t = document.createElement(n.tagName || "div");
-                n.content && (Array.isArray(n.content) ? e(t, ...n.content) : e(t, n.content)), 
-                s.push(t);
+        create(...t) {
+            let n = new r;
+            for (const s of t) if ("string" == typeof s) n.push(document.createElement(s)); else if (s instanceof Object) {
+                const t = document.createElement(s.tagName || "div");
+                s.content && (Array.isArray(s.content) ? e(t, ...s.content) : e(t, s.content)), 
+                n.push(t);
             }
-            return s;
+            return n;
         }
-        /**
-         * Clears the contents of each element in the set and returns the instance itself
-         */        empty() {
+        empty() {
             return this.forEach((t => t.innerHTML = "")), this;
         }
-        /**
-         * Sets the textContent property for each collection item and returns an instance
-         */        text(t) {
+        text(t) {
             return this.forEach((e => e.textContent = t || "")), this;
         }
-        /**
-         * Inserts a set of Node objects or DOMString objects after the last child of each array element
-         */        append(...t) {
-            return this.forEach((s => e(s, ...t))), this;
+        append(...t) {
+            return this.forEach((n => e(n, ...t))), this;
         }
-        /**
-         * Adds a class or classes to all array elements
-         */        addClass(...t) {
+        addClass(...t) {
             return this.forEach((e => e.classList.add(...t))), this;
         }
-        /**
-         * Removes a class or classes from all array elements
-         */        removeClass(...t) {
+        removeClass(...t) {
             return this.forEach((e => e.classList.remove(...t))), this;
         }
-        /**
-         * Adds or removes a class for each element of the array, depending on its presence
-         */        toggleClass(t) {
+        toggleClass(t) {
             return this.forEach((e => e.classList.toggle(t))), this;
         }
-        /**
-         * Determine if any of the agreed members are assigned to this class. Or, if you pass "true" as the second argument, then each element (default: reqtForAll = false)
-         */        hasClass(t, e = !1) {
-            let s = new n;
-            if (e) // The presence of a class for each element of the set
-            return this.forEach((e => {
-                e.classList.contains(t) && s.push(e);
-            })), s;
-            // the presence of a class for at least one element of the set
-            for (const e of this) e.classList.contains(t) && s.push(e);
-            return s;
+        hasClass(t, e = !1) {
+            let n = new r;
+            if (e) return this.forEach((e => {
+                e.classList.contains(t) && n.push(e);
+            })), n;
+            for (const e of this) e.classList.contains(t) && n.push(e);
+            return n;
         }
-        /**
-         * Calls the "addEventListener" method for each set item
-         */        addEventListener(t, e, s) {
-            return this.forEach((n => n.addEventListener(t, e, s))), this;
+        addEventListener(t, e, n) {
+            return this.forEach((s => s.addEventListener(t, e, n))), this;
         }
-        /**
-         * Calls the "removeEventListener" method for each set item
-         */        removeEventListener(t, e, s) {
-            return this.forEach((n => n.removeEventListener(t, e, s))), this;
+        removeEventListener(t, e, n) {
+            return this.forEach((s => s.removeEventListener(t, e, n))), this;
         }
-        /**
-         * Calls dispatchEvent with an event of the specified type for each item in the set
-         */        fireEvent(t) {
+        fireEvent(t) {
             return this.forEach((e => e.dispatchEvent(new Event(t)))), this;
         }
-        /**
-         * Sets the style attribute property passed in the object by key
-         */        css(t) {
-            return this.forEach((e => Object.keys(t).forEach((s => e.style[s] = t[s])))), this;
+        css(t) {
+            return this.forEach((e => Object.keys(t).forEach((n => e.style[n] = t[n])))), this;
         }
-        /**
-         * Sets the attribute property passed in the object by key
-         */        attr(t) {
-            return this.forEach((e => Object.keys(t).forEach((s => e.setAttribute(s, t[s]))))), 
+        attr(t) {
+            return this.forEach((e => Object.keys(t).forEach((n => e.setAttribute(n, t[n]))))), 
             this;
         }
-        /**
-         * Recursively calls each passed function in a new setTimeout(() => {}, 0)
-         */        nextTick(...t) {
+        nextTick(...t) {
             return s(...t), this;
         }
     }
     return function(...e) {
-        return e instanceof n ? e : new n(...t(document, ...e));
+        return e instanceof r ? e : new r(...t(document, ...e));
     };
 }));
 //# sourceMappingURL=micro-dom.umd.js.map

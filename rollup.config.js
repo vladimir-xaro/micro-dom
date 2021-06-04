@@ -22,7 +22,7 @@ if (isDev) {  // Dev
       sourcemap: true,
       name,
       format: 'iife',
-      file: `dev/${filename}.js`,
+      file: `dev/${filename}.dev.js`,
       plugins: [
         terser({
           format: {
@@ -67,7 +67,8 @@ if (isDev) {  // Dev
         format: {
           beautify: true,
           comments: true,
-        }
+        },
+        mangle: false,
       }),
     ]
   }, {
@@ -93,7 +94,6 @@ if (isDev) {  // Dev
       terser({
         format: {
           beautify: true,
-          comments: true,
         }
       }),
       resolve({
