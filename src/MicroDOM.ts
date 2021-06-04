@@ -194,7 +194,7 @@ export default class MicroDOM<T extends Element = Element> extends Array<T> impl
   /**
    * Recursively calls each passed function in a new setTimeout(() => {}, 0)
    */
-  nextTick(...cbs: Function[]): I_MicroDOM<T> {
+  nextTick(...cbs: Array<Function | [ Function, number? ]>): I_MicroDOM<T> {
     nextTick(...cbs);
 
     return this;

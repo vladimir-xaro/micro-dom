@@ -29,7 +29,7 @@ export class MicroDOM<T extends Element = Element> extends Array<T> {
   fireEvent(type: string): MicroDOM<T>;                                                     // Calls dispatchEvent with an event of the specified type for each item in the set
   css(obj: object): MicroDOM<T>;                                                            // Sets the style attribute property passed in the object by key
   attr(obj: object): MicroDOM<T>;                                                           // Sets the attribute property passed in the object by key
-  nextTick(...cbs: Function[]): MicroDOM<T>;                                                // Recursively calls each passed function in a new setTimeout(() => {}, 0)
+  nextTick(...cbs: Array<Function | [ Function, number? ]>): MicroDOM<T>;                   // Recursively calls each passed function in a new setTimeout(() => {}, 0)
 }
 
-export function nextTick(...cbs: Function[]): void;
+export function nextTick(...cbs: Function[]...cbs: Array<Function | [ Function, number? ]>): void;
